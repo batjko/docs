@@ -92,7 +92,7 @@ Here's how you would run a single query and get the result:
 import ApolloClient from 'apollo-client';
 
 // Polyfill fetch into the namespace if required.
-import fetch from 'isomorphic-fetch';
+// import fetch from 'isomorphic-fetch';
 
 const client = new ApolloClient();
 
