@@ -7,7 +7,7 @@ description: How to use the Apollo Client to fetch GraphQL data in your React ap
 This package allows you to easily integrate your Apollo client and Redux store with your React components. It works almost exactly like [react-redux](https://github.com/reactjs/react-redux).
 
 ```txt
-npm install apollo-client
+npm install react-apollo --save
 ```
 
 [Follow apollostack/react-apollo on GitHub.](https://github.com/apollostack/react-apollo)
@@ -140,24 +140,24 @@ const CategoryWithData = connect({
 export default CategoryWithData;
 ```
 
-Each key on the object returned by mapQueriesToProps should be made up of the same possible arguments as [`ApolloClient#watchQuery`](http://docs.apollostack.com/apollo-client/index.html#watchQuery). In this case, the `Category` component will get a prop called `category`, which has the following keys:
+Each key on the object returned by mapQueriesToProps should be made up of the same possible arguments as [`ApolloClient#watchQuery`](index.html#watchQuery). In this case, the `Category` component will get a prop called `category`, which has the following keys:
 
 ```js
 {
   loading: boolean,
   errors: Error[],
-  result: GraphQLResult,
-  refetch: Function(variables)
+  refetch: Function(variables),
+  getCategory: Data // only when the query has returned
 }
 ```
 
-`mapMutationsToProps` returns an object made up of keys and values that are custom functions to call the mutation. These can be used in children components (for instance, on a event handler) to trigger the mutation. The resulting function must return the same possible arguents as [`ApolloClient#mutate`](http://docs.apollostack.com/apollo-client/index.html#mutate). In this case, the `Category` component will get a prop called `postReply`, which has the following keys:
+`mapMutationsToProps` returns an object made up of keys and values that are custom functions to call the mutation. These can be used in children components (for instance, on a event handler) to trigger the mutation. The resulting function must return the same possible arguents as [`ApolloClient#mutate`](index.html#mutate). In this case, the `Category` component will get a prop called `postReply`, which has the following keys:
 
 ```js
 {
   loading: boolean,
   errors: Error[],
-  result: GraphQLResult,
+  postReply: Data, // only when the muation has returned
 }
 ```
 
@@ -177,7 +177,7 @@ class Container extends React.Component{
       .then((err, data) => {
         // if we have the data we want
         if (data.id) {
-          // refetch the categories query without variables, 
+          // refetch the categories query without variables,
           // just refresh client store
           this.props.categories.refetch();
         };
@@ -191,7 +191,7 @@ class Container extends React.Component{
 
 ```
 
-`refetch(variables: optional)` also supports passing variables to refetch the same query with different set of variables. This would be handy for cases, when you just want to modify the variables to get new data. 
+`refetch(variables: optional)` also supports passing variables to refetch the same query with different set of variables. This would be handy for cases, when you just want to modify the variables to get new data.
 
 **For example:**
 
